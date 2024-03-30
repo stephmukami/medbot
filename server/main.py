@@ -11,7 +11,6 @@ load_dotenv()
 qdrant_link =  os.environ.get("QDRANT_LINK")
 qdrant_api = os.environ.get("QDRANT_API")
 # openai_api_key = os.environ.get("OPEN_AI_API")
-# openai_api_key = "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"
 
 
 #loading qdrant and open ai apis
