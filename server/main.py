@@ -43,7 +43,7 @@ import numpy as np
 
 
 app = FastAPI()
-
+#add this part for the CORS policy
 origins = [
     "http://localhost:3000"
 ]
