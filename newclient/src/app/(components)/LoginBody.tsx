@@ -19,30 +19,10 @@ export default function LoginBody() {
     })
       .then((callback) => {
         if (callback?.error) {
-          toast("Wrong credentials, 😞try again", {
-            duration: 5000,
-            // Styling
-            style: {},
-            className: "",
-  
-            ariaProps: {
-              role: "status",
-              "aria-live": "polite",
-            },
-          })
+          toast.error("Wrong credentials, 😞try again")
           console.log(callback.error)
         } else if (callback?.ok) {
-          toast("Logged in successfully! 🎊", {
-            duration: 5000,
-            // Styling
-            style: {},
-            className: "",
-  
-            ariaProps: {
-              role: "status",
-              "aria-live": "polite",
-            },
-          })
+          toast.success('Logged in successfully! 🎊')
           router.push('/chat') // Redirect to chat page upon successful login
         }
       })

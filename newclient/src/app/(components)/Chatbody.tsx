@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import fastapi from '@/fastapi';
-import imageApi from "@/imageApi";
+import imageApi from "../imageApi";
+
 
 type Props = {};
 
@@ -40,32 +41,31 @@ function Chatbody({}: Props) {
 };
 
 //handling submission of image file
+    const handleFileSubmit = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
 
-const handleFileSubmit = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+        if (!selectedFile) {
+            console.error('No file selected');
+            return;
+        }
 
-    if (!selectedFile) {
-        console.error('No file selected');
-        return;
-    }
-
-    try {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-
-        const response = await imageApi.post('/predict/', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        console.log('File uploaded successfully:', response.data);
-        setServerResponse(response.data.Prediction); // Access Prediction key
-    } catch (error) {
-        console.error('Error uploading file:', error);
-    }
-};
-
+        try {
+            const fileReader = new FileReader();
+            fileReader.onload = async () => {
+                if (fileReader.result) {
+                    const base64Data = (fileReader.result as string).split(',')[1];
+                    const response = await imageApi.post('/predict/', { data: base64Data });
+                    console.log('File uploaded successfully:', response.data);
+                    setServerResponse(response.data)
+                } else {
+                    console.error('Error: Null file reader result');
+                }
+            };
+            fileReader.readAsDataURL(selectedFile);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
 
     //submission of user question
     const handleSubmit = async (e: { preventDefault: () => void; }) => {

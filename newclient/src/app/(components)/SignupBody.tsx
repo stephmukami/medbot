@@ -12,42 +12,29 @@ export default function SignupBody() {
   });
 
   const registerUser = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    axios
-      .post("/api/registerApi", registerdata)
-      .then(() =>
-        setregisterData({
-          first_name: "",
-          last_name: "",
-          email: "",
-          password: "",
-        })
-      )
-      .then(() =>
-        toast(" ✅ Successful Registration ! Proceed to login🎉", {
-          duration: 5000,
-          // Styling
-          style: {},
-          className: "",
+    e.preventDefault()
+    axios.post('/api/registerApi', registerdata)
+    .then(() => setregisterData({first_name:'',last_name:'', email:'',password:''}))
+    .then(() => toast('Hello World', {
+      duration: 4000,
+    
+      // Styling
+      style: {},
+      className: '',
+    
+      // Custom Icon
+     // icon: '',
+    
+      // Aria
+      ariaProps: {
+        role: 'status',
+        'aria-live': 'polite',
+      },
+    })
+    )
+    .catch(() => toast.error('Something went wrong😔!'))
+ }
 
-          ariaProps: {
-            role: "status",
-            "aria-live": "polite",
-          },
-        })
-      )
-      .catch(() => toast("Something went wrong😔!", {
-        duration: 5000,
-        // Styling
-        style: {},
-        className: "",
-
-        ariaProps: {
-          role: "status",
-          "aria-live": "polite",
-        },
-      }) );
-  };
 
   return (
     <>
@@ -76,12 +63,7 @@ export default function SignupBody() {
                   name="first_name"
                   type="text"
                   value={registerdata.first_name}
-                  onChange={(e) =>
-                    setregisterData({
-                      ...registerdata,
-                      first_name: e.target.value,
-                    })
-                  }
+                  onChange={(e) => setregisterData({ ...registerdata, first_name: e.target.value })}
                   required
                   className="h-6 block w-full rounded-sm border-gray-300 shadow-sm placeholder-gray-400 sm:text-sm focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
@@ -103,12 +85,7 @@ export default function SignupBody() {
                   name="last_name"
                   type="last_name"
                   value={registerdata.last_name}
-                  onChange={(e) =>
-                    setregisterData({
-                      ...registerdata,
-                      last_name: e.target.value,
-                    })
-                  }
+                  onChange={(e) => setregisterData({ ...registerdata, last_name: e.target.value })}
                   required
                   className="h-6 block w-full rounded-sm border-gray-300 shadow-sm placeholder-gray-400 sm:text-sm focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
@@ -131,9 +108,7 @@ export default function SignupBody() {
                   type="email"
                   autoComplete="email"
                   value={registerdata.email}
-                  onChange={(e) =>
-                    setregisterData({ ...registerdata, email: e.target.value })
-                  }
+                  onChange={(e) => setregisterData({ ...registerdata, email: e.target.value })}
                   required
                   className="h-6 block w-full rounded-sm border-gray-300 shadow-sm placeholder-gray-400 sm:text-sm focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
@@ -157,10 +132,7 @@ export default function SignupBody() {
                   required
                   value={registerdata.password}
                   onChange={(e) =>
-                    setregisterData({
-                      ...registerdata,
-                      password: e.target.value,
-                    })
+                    setregisterData({ ...registerdata, password: e.target.value })
                   }
                   className="h-6 block w-full rounded-sm border-gray-300 shadow-sm placeholder-gray-400 sm:text-sm focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
