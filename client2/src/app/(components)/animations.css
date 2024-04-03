@@ -1,0 +1,24 @@
+@keyframes typing {
+    0% {
+      width: 50%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  .typing-animation {
+    animation: typing 3s steps(30, end) infinite;
+    text-align: center;
+  }
+  
+  .blink-animation {
+    animation: blink 1s infinite;
+  }
+  
