@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import axios from 'axios';
 import fastapi from '@/fastapi';
 import imageApi from "@/imageApi";
@@ -10,7 +10,7 @@ function Chatbody({}: Props) {
 //state for file selection
     const [selectedFile, setSelectedFile] = useState(null);
     //state for classifed disease
-    const [classified, setclassified] = useState(null);
+    const [xrayContent, setXrayContent] = useState('');
 
 //state for user question
     const [userQuery, setUserQuery] = useState({
@@ -28,6 +28,9 @@ function Chatbody({}: Props) {
 
 //state for the original image
 const [originalimageSrc, setOriginalImageSrc] = useState('');
+
+//state for message rendering
+const [messaging, setMessaging] = useState<{ role: string; message: string }[]>([]);
 
    // Function to handle image file selection
    const handleFileChange = (e: {
@@ -59,7 +62,8 @@ const handleFileSubmit = async (e: { preventDefault: () => void; }) => {
         const formData = new FormData();
         formData.append('file', selectedFile);
 
-        // const response = await imageApi.post('/predict/', formData, {
+        // from original api
+        //const response = await imageApi.post('/predict/', formData, {
         //     headers: {
         //         'Content-Type': 'multipart/form-data'
         //     }
@@ -102,6 +106,18 @@ setOriginalImageSrc(imageUrl);
 
 
         setServerResponse(response.data.Prediction); 
+
+        const prediction_data = response.data.Prediction
+        const normal_text = 'The uploaded x-ray does not show signs of any respiratory disease'
+        if (prediction_data ===! "Normal") {
+          const  xray_context_response = await fastapi.post('/getChat/', { user_text: `Briefly tell me about this ${prediction_data} disease` });
+          setXrayContent(xray_context_response.data.output_text)
+        }else{
+            setXrayContent(normal_text)
+
+        }
+
+
     } catch (error) {
         console.error('Error uploading file:', error);
     }
@@ -115,8 +131,17 @@ setOriginalImageSrc(imageUrl);
         setFormSubmitted(true);
         //setUserQuery( {     user_question: "",})
         const question_data = userQuery.user_question;
+
+        const userMessage = { role: 'human_user', message: question_data };
+
+        setMessaging([...messaging, userMessage as { role: string; message: string }]);
+        
         const response = await fastapi.post('/getChat/', { user_text: question_data });
         // await new Promise((resolve)=>setTimeout(resolve,50))
+    const botMessage = { role: 'bot', message: response.data.output_text };
+
+    setMessaging([...messaging, botMessage as { role: string; message: string }]);
+        
         console.log(response.data)
         setServerResponse(response.data.output_text); // Update state with the response data
 
@@ -127,7 +152,8 @@ setOriginalImageSrc(imageUrl);
 
     return (
         <div className="parent-div p-6">
-            <div className="top-part mb-80  ">
+
+<div className="top-part mb-80">
                 <div className="chat-response mb-9">
                     <div className="bot-id flex items-center mb-4">
                         <div className="chat-icon mr-3 w-10 h-10 bg-gradient-to-br from-pink-300 to-blue-300 rounded-full"></div>
@@ -137,46 +163,51 @@ setOriginalImageSrc(imageUrl);
                         <p>Ask away! 😊 Example: What are the symptoms of Tuberculosis? </p>
                     </div>
                 </div>
-                {formSubmitted && (
-                    <div className="user-query mb-9">
-                        <div className="user-id flex items-center mb-6 font-bold ">
-                            <div className="chat-icon mr-3 w-10 h-10 bg-chat-icon rounded-full"></div>
-                            <h3>You</h3>
-                        </div>
-                        <div className="user-query font-semibold">
-                            <p>{userQuery.user_question}</p>
-                        </div>
+    {messaging.map((message, index) => (
+        <div key={index}>
+            {message.role === 'human_user' && (
+                <div className="user-query mb-9">
+                    <div className="user-id flex items-center mb-6 font-bold">
+                        <div className="chat-icon mr-3 w-10 h-10 bg-chat-icon rounded-full"></div>
+                        <h3>You</h3>
                     </div>
-                )}
-                        {serverResponse ? (
-            <div className="chat-response mb-9">
-                <div className="bot-id flex items-center mb-4">
-                    <div className="chat-icon mr-3 w-10 h-10 bg-gradient-to-br from-pink-300 to-blue-300 rounded-full"></div>
-                    <h3 className="font-bold text-brand-blue">MedBot</h3>
+                    <div className="user-query font-semibold">
+                        <p>{message.message}</p>
+                    </div>
                 </div>
-                <div className="bot-response text-white font-semibold bg-brand-blue p-5 rounded-xl">
-                    <p>{serverResponse}</p>
-                    {originalimageSrc && <img src={originalimageSrc} alt="Original Image" />}
-
-                    {imageSrc && <img src={imageSrc} alt="Superimposed Image" />}
+            )}
+            {message.role === 'bot' && (
+                <div className="chat-response mb-9">
+                    <div className="bot-id flex items-center mb-4">
+                        <div className="chat-icon mr-3 w-10 h-10 bg-gradient-to-br from-pink-300 to-blue-300 rounded-full"></div>
+                        <h3 className="font-bold text-brand-blue">MedBot</h3>
+                    </div>
+                    <div className="bot-response text-white font-semibold bg-brand-blue p-5 rounded-xl">
+                        <p>{message.message}</p>
+                     
+                    </div>
                 </div>
-            </div>
-        ) : (
-            <div className="text-center">
-                <div role="status">
-                    <svg aria-hidden="true" className="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                </div>
-            </div>
-        )}
+            )}
+       
+
+        </div>
+    ))}
+
+{serverResponse && ( <div className="bg-dark-grey p-5 rounded-xl"> 
+                <p> Predicted Disease is: {serverResponse}</p>
+                        <p>Original Image</p>
+                        {originalimageSrc && <img src={originalimageSrc} alt="Original Image" />}
+                        <p>Superimposed Image</p>
+                        {imageSrc && <img src={imageSrc} alt="Superimposed Image" />}
+                       
+                        <p>{xrayContent}</p>
+             </div>)}
+</div>
 
 
-            </div>
 
-            <div className="bottom-part">
+
+            <div className="bottom-part border border-red-800">
                 <form action="" onSubmit={handleSubmit}>
                     <div className="navigation flex items-center justify-center space-x-2">
                         <input className="w-full bg-light-grey p-4 mb-6 rounded-xl outline-none focus:border-grey-800 focus:outline-none focus:ring-1 focus:ring-grey-800"
@@ -195,8 +226,12 @@ setOriginalImageSrc(imageUrl);
                 </form>
                 <div className="navigation flex items-center justify-center space-x-5">
                     <form onSubmit={handleFileSubmit}>
+                        <div className="bg-brand-blue mb-8 mt-2 rounded-md text-white text-center">
+                        <h5 >Upload an x-ray image for analysis</h5>
+
+                        </div>
                         <input type="file" onChange={handleFileChange} />
-                        <button className='sm:relative bottom-8 p-1  relative bottom-4 rounded-lg bg-white text-brand-blue border border-brand-blue border-2 hover:bg-brand-blue hover:text-white' type="submit">Upload File</button>
+                        <button className='sm:relative bottom-2  p-1  relative bottom-2 rounded-lg bg-white text-brand-blue border border-brand-blue border-2 hover:bg-brand-blue hover:text-white' type="submit">Upload File</button>
                     </form>
                 </div>
             </div>

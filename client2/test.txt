@@ -1,7 +1,7 @@
 python -m venv myenv
 python -m venv newenv
 
- git submodule add https://github.com/Rose-Kimu/X-ray-softmax-API.git computerVision/X-ray-softmax-API
+ git submodule add https://github.com/Rose-Kimu/X-ray-softmax-API.git computerVision/X-ray-softmax-API after git clone
 python -m venv testenv
 
 myenv\Scripts\activate

@@ -1,6 +1,6 @@
-myenv/
 testenv/
 
+myenv/
 ./myenv
 myenv/*
 
