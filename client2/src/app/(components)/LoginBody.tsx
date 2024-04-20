@@ -11,8 +11,49 @@ export default function LoginBody() {
     password: ""
   });
 
+   //state for handling error
+   const [formError, setFormError] = useState({
+    email: "",
+    password: "",
+  });
+
   const loginUser = async (e: { preventDefault: () => void; }) => {
     e.preventDefault()
+
+    let inputError = {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    };
+
+    if (!data.email && !data.password) {
+      setFormError({
+        ...inputError,
+        email: "Enter valid email address",
+        password: "Password should not be empty",
+      });
+      return
+    }
+
+    if (!data.email) {
+      setFormError({
+        ...inputError,
+        email: "Enter valid email address",
+      });
+      return
+    }
+
+    if (!data.password) {
+      setFormError({
+        ...inputError,
+        password: "Password should not be empty",
+      });
+      return
+    }
+
+    setFormError(inputError);
+
+
     signIn('credentials', {
       ...data,
       redirect: false
@@ -81,6 +122,8 @@ export default function LoginBody() {
                   required
                   className="h-6 block w-full rounded-sm border-gray-300 shadow-sm placeholder-gray-400 sm:text-sm focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
+                 <p className="error-message">{formError.email}</p>
+
               </div>
             </div>
 
@@ -104,6 +147,8 @@ export default function LoginBody() {
                   }
                   className="h-6 block w-full rounded-sm border-gray-300 shadow-sm placeholder-gray-400 sm:text-sm focus:border-brand-blue focus:outline-none focus:ring-1 focus:ring-brand-blue"
                 />
+                  <p className="error-message">{formError.password}</p>
+
               </div>
             </div>
 

@@ -33,17 +33,20 @@ client =  QdrantClient(
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 # retrieve answer
-from langchain_openai import OpenAI
+# from langchain_openai import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 from langchain_openai import OpenAIEmbeddings
 
+from langchain_openai import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.memory import ConversationBufferMemory
+
 import numpy as np
 
 
 app = FastAPI()
-#add this part for the CORS policy
 origins = [
     "http://localhost:3000"
 ]
@@ -91,12 +94,28 @@ async def getInput( user_response: UserResponse):
     
 
     # formulating answer
-     model_name = "gpt-3.5-turbo-instruct"
-     llm = OpenAI(model_name=model_name)
+     
+    #prompt for the question-answering chain with memory
+     template = """You are MedBot, a medical AI assistant. Please answer the following questions related to respiratory diseases only.If you lack the necessarry context to answer the medical realted question posed Say sorry and
+    state that you currently lack the needed information to answer the question at the moment but it will be addressed soon.If the question is not medical related state that you are only able to answer
+    medical questions about respiratory diseases.
 
-     chain = load_qa_chain(llm, chain_type="stuff")
+    {context}
 
-     answer = chain.run(input_documents=docs, question=query)
+    {chat_history}
+    Human: {human_input}
+    Chatbot:"""
+
+     prompt = PromptTemplate(
+        input_variables=["chat_history", "human_input", "context"], template=template
+    )
+     memory = ConversationBufferMemory(memory_key="chat_history", input_key="human_input")
+     chain = load_qa_chain(
+        OpenAI(temperature=0), chain_type="stuff", memory=memory, prompt=prompt
+    )
+
+    #retrieval of the answer
+     answer = chain({"input_documents": docs, "human_input": query}, return_only_outputs=True)
      
      return answer
 

@@ -1,0 +1,9 @@
+myenv/
+testenv/
+
+./myenv
+myenv/*
+
+testenv/
+./testenv
+testenv/*
