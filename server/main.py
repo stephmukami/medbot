@@ -119,5 +119,3 @@ async def getInput( user_response: UserResponse):
      
      return answer
 
-
-

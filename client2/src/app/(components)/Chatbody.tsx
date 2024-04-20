@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import fastapi from '@/fastapi';
 import imageApi from "@/imageApi";
-import visionapi from "../visionapi";
-
+import visionapi from "@/visionapi";
 type Props = {};
 
 function Chatbody({}: Props) {
@@ -24,8 +23,11 @@ function Chatbody({}: Props) {
 //state for handling user cards after submission
     const [formSubmitted, setFormSubmitted] = useState(false);
 
-//state for the rendered image
+//state for the rendered super imposed image
     const [imageSrc, setImageSrc] = useState('');
+
+//state for the original image
+const [originalimageSrc, setOriginalImageSrc] = useState('');
 
    // Function to handle image file selection
    const handleFileChange = (e: {
@@ -71,18 +73,32 @@ const handleFileSubmit = async (e: { preventDefault: () => void; }) => {
 
         console.log('File uploaded successfully:', response.data);
  //obtaning the image lime url and turning it to an image
-  // Convert base64 string to image
-    const base64Image = response.data.Original_Image;
-    const binaryString = window.atob(base64Image);
-    const binaryBuffer = new ArrayBuffer(binaryString.length);
-    const byteArray = new Uint8Array(binaryBuffer);
-    for (let i = 0; i < binaryString.length; i++) {
-        byteArray[i] = binaryString.charCodeAt(i);
-    }
-    const blob = new Blob([binaryBuffer], { type: 'image/jpeg' });
-    const imageUrl = URL.createObjectURL(blob);
+    // Convert base64 string to image for the original image
+const base64Image = response.data.Original_Image;
+const binaryString = window.atob(base64Image);
+const binaryBuffer = new ArrayBuffer(binaryString.length);
+const byteArray = new Uint8Array(binaryBuffer);
+for (let i = 0; i < binaryString.length; i++) {
+    byteArray[i] = binaryString.charCodeAt(i);
+}
+const blob = new Blob([binaryBuffer], { type: 'image/jpeg' });
+const imageUrl = URL.createObjectURL(blob);
 
-    setImageSrc(imageUrl);
+setOriginalImageSrc(imageUrl); 
+
+
+  // Convert base64 string to image for the super imposed image
+    const base64Image2 = response.data.Superimposed_Image;
+    const binaryString2 = window.atob(base64Image2);
+    const binaryBuffer2 = new ArrayBuffer(binaryString2.length);
+    const byteArray2 = new Uint8Array(binaryBuffer2);
+    for (let i = 0; i < binaryString2.length; i++) {
+        byteArray2[i] = binaryString2.charCodeAt(i);
+    }
+    const blob2 = new Blob([binaryBuffer2], { type: 'image/jpeg' });
+    const superimposedUrl = URL.createObjectURL(blob2);
+
+    setImageSrc(superimposedUrl);
 
 
         setServerResponse(response.data.Prediction); 
@@ -100,7 +116,7 @@ const handleFileSubmit = async (e: { preventDefault: () => void; }) => {
         //setUserQuery( {     user_question: "",})
         const question_data = userQuery.user_question;
         const response = await fastapi.post('/getChat/', { user_text: question_data });
-        await new Promise((resolve)=>setTimeout(resolve,500))
+        // await new Promise((resolve)=>setTimeout(resolve,50))
         console.log(response.data)
         setServerResponse(response.data.output_text); // Update state with the response data
 
@@ -140,7 +156,9 @@ const handleFileSubmit = async (e: { preventDefault: () => void; }) => {
                 </div>
                 <div className="bot-response text-white font-semibold bg-brand-blue p-5 rounded-xl">
                     <p>{serverResponse}</p>
-                    {imageSrc && <img src={imageSrc} alt="Decoded Image" />}
+                    {originalimageSrc && <img src={originalimageSrc} alt="Original Image" />}
+
+                    {imageSrc && <img src={imageSrc} alt="Superimposed Image" />}
                 </div>
             </div>
         ) : (
