@@ -27,6 +27,7 @@ npm install -D ts-node
 npm install -D typescript.
 npm install --save-dev @babel/preset-typescript
 
+ git submodule add https://github.com/Rose-Kimu/Final-API.git visionNewapi/Final-API
 second main
 from fastapi import FastAPI, HTTPException, Depends
 from typing import Annotated, List
