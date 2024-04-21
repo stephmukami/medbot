@@ -1,5 +1,5 @@
-how to make the cover image better, how to format html easily
-why is the fist guide for step 1 misbehaving
-
-can add relevant icons for the guide card?
-add more cards in homepage?
+ newenv\Scripts\activate
+uvicorn main:app --host 0.0.0.0 --port 7000
+uvicorn main:app --host 0.0.0.0 --port 6000
+uvicorn main:app --reload
+ newenv\Scripts\deactivate 

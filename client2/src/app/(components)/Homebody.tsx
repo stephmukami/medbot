@@ -5,7 +5,7 @@ function Homebody() {
   return (
     <div className="flex-body  lg:flex bg-stone-50 flex-col sm:flex-col md:flex-col lg:flex-row w-screen h-full">
       <div className="text-body flex-4 p-10 text-center md:text-left sm:text-center">
-        <h2 className="text-8xl mb-3 text-brand-blue">Medbot</h2>
+        <h1 className="text-7xl mb-3 text-brand-blue">Medbot</h1>
         <h2 className="text-3xl m-1 mb-2">Easy and accurate diagnosis</h2>
         <h4 className="text-base mb-3">
           A medical chat-bot that provides access to health information and 

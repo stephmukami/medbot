@@ -1,5 +1,6 @@
 python -m venv myenv
 python -m venv newenv
+python -m venv britenv
 
  git submodule add https://github.com/Rose-Kimu/X-ray-softmax-API.git computerVision/X-ray-softmax-API after git clone
 python -m venv testenv
@@ -8,15 +9,23 @@ myenv\Scripts\activate
 testenv\Scripts\activate
 newenv\Scripts\activate
 
-(newenv) PS C:\Users\Admin\Dev\full-medbot\computerVision\X-ray-softmax-API> uvicorn main:app --reload --host 0.0.0.0 --port 7000
 
-deactivate - when done
+(newenv) PS C:\Users\Admin\Dev\full-medbot\computerVision\X-ray-softmax-API> uvicorn main:app --reload --host 0.0.0.0 --port 7000
+ uvicorn main:app --reload --host 0.0.0.0 --port 6000
+ newenv\Scripts\activate
+uvicorn main:app --host 0.0.0.0 --port 7000
+uvicorn main:app --host 0.0.0.0 --port 6000
+uvicorn main:app --reload
+ newenv\Scripts\deactivate 
  pip install fastapi uvicorn
  cd into server then uvicorn main:app --reload then can go to http://127.0.0.1:8000/docs#/ (while in the virtual env)
 to add artificial delay ->   await new Promise((resolve)=>setTimeout(resolve,1000))
-uvicorn main:app --host 0.0.0.0 --port 7000
-
-
+activa
+testing
+npm install @babel/preset-env --save-dev
+npm install -D ts-node
+npm install -D typescript.
+npm install --save-dev @babel/preset-typescript
 
 second main
 from fastapi import FastAPI, HTTPException, Depends
@@ -32,6 +41,7 @@ load_dotenv()
 qdrant_link =  os.environ.get("QDRANT_LINK")
 qdrant_api = os.environ.get("QDRANT_API")
 # openai_api_key = os.environ.get("OPEN_AI_API")
+
 
 
 #loading qdrant and open ai apis

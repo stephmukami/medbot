@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
               },
         }),  
     ],
-    secret: process.env.SECRET || "a-default-secret", // Replace with a default secret if needed
+    secret: process.env.SECRET || "a-default-secret", 
     session: {
         strategy: "jwt" as const,
     },

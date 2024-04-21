@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 
-# Load variables from .env file
+# Loading variables from .env file
 load_dotenv()
 qdrant_link =  os.environ.get("QDRANT_LINK")
 qdrant_api = os.environ.get("QDRANT_API")
@@ -32,7 +32,6 @@ client =  QdrantClient(
 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
-# retrieve answer
 # from langchain_openai import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.text_splitter import CharacterTextSplitter
@@ -77,7 +76,6 @@ async def getInput( user_response: UserResponse):
      
      file_path = 'output.txt'
 
-            # Save the output list to the text file
      def save_to_text_file(output_list, file_path):
             with open(file_path, 'w') as f:
                 for item in output_list:

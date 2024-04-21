@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {}
 
-function loading({}: Props) {
+function Loading({}: Props) {
   return (
     <div>
 
@@ -21,4 +21,4 @@ function loading({}: Props) {
   )
 }
 
-export default loading
+export default Loading

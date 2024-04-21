@@ -1,3 +1,6 @@
 [submodule "computerVision/X-ray-softmax-API"]
 	path = computerVision/X-ray-softmax-API
 	url = https://github.com/Rose-Kimu/X-ray-softmax-API.git
+[submodule "visionNewapi/Final-API"]
+	path = visionNewapi/Final-API
+	url = https://github.com/Rose-Kimu/Final-API.git

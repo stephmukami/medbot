@@ -15,9 +15,9 @@ function AboutPage({}: Props) {
         <div className="flex justify-center items-center ">
           <div className=" w-3/4">
             <p className="text-center">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi
-              sapiente laborum ad, nostrum ab quasi iste repellendus amet nam
-              inventore suscipit aperiam quo voluptatum pariatur.
+           Medbot is an innovative solution meant to assist in the diagnosis of respiratory diseases.
+           It consists of a transformer powered chat module and a machine learning computer vision model.
+           These two work together to assist in analysis of symptoms and chest x-rays.
             </p>
           </div>
         </div>
@@ -35,24 +35,21 @@ function AboutPage({}: Props) {
                 <div className=" lg:relative top-2  lg:w-1/5 p-4 bg-white text-brand-blue rounded-2xl">
                 <h4 className="font-semibold">Step 1</h4>
                 <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam,
-                    fugit!
+                  Create an account  and login.You will be redirected to the chat module where you can interact with Medbot.
                 </p>
                 </div>
 
             <div className=" bg-white text-brand-blue rounded-2xl lg:w-1/5 p-4">
             <h4 className="font-semibold">Step 2</h4>
             <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam,
-                fugit!
+                Ask a question related to respiratory diseases eg pneumonia and tuberculosis by typing in the user input section.
             </p>
             </div>
 
             <div className=" bg-white text-brand-blue rounded-2xl lg:w-1/5 p-4">
             <h4 className="font-semibold">Step 3</h4>
             <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam,
-                fugit!
+                Upload a picture of an x-ray and the system will give an analysis of the x-ray outlining the sources of interest.
             </p>
             </div>
         </div>
