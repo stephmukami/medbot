@@ -35,6 +35,9 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 import os
+python -m unittest test_main
+
+pytest test_main.py
 from dotenv import load_dotenv
 
 # Load variables from .env file

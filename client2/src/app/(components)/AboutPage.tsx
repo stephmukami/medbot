@@ -1,5 +1,5 @@
 import React from "react";
-import "./animations.css"; // Assuming the CSS file containing the animations is named animations.css
+import "./animations.css"; 
 import Image from "next/image";
 
 type Props = {};
