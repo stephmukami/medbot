@@ -1,3 +1,25 @@
+
+Symptoms of tb
+what are the different types of pneumonia
+How do you treat sb with tb of the spine
+How to treat sb with lung fibrosis due to drug resistant tb
+ How to treat sb with respiratory failure due to pneumonia
+ how to treat pregnant woman with 
+diagnose a male with night sweats,cough and fever and weight loss
+
+
+ diagnose a male with night sweats,cough and fever and weight loss
+ diagnose a twenty yr old with two day running nose,cough and chest pain while coughing
+ 55 yr old male with hiv and 2 month history of cough, night sweats and weight loss 
+
+
+
+
+
+
+
+ 
+
 python -m venv myenv
 python -m venv newenv
 python -m venv britenv
