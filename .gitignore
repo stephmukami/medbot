@@ -4,22 +4,13 @@ myenv/
 ./myenv
 myenv/*
 
-testenv/
-./testenv
-testenv/*
 
-testserver/
-./testserver
-testserver/*
 
 newenv/
 ./newenv
 newenv/*
 
 
-computerVision/
-./computerVision
-computerVision/*
 
 visionNewapi/
 ./visionNewapi
