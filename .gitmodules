@@ -4,3 +4,6 @@
 [submodule "visionNewapi/Final-API"]
 	path = visionNewapi/Final-API
 	url = https://github.com/Rose-Kimu/Final-API.git
+[submodule "Final-API"]
+	path = Final-API
+	url = https://github.com/Rose-Kimu/Final-API.git
