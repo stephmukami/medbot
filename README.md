@@ -80,11 +80,11 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 
 
 ---
-## Meet the Team :
+## Dream Team :
 ### Stephanie Mukami
 > GitHub [@stephmukami](https://github.com/stephmukami) &nbsp;&middot;&nbsp;
 ### Rose Kimu 
-> GitHub [@RyanSmoak](https://github.com/RyanSmoak) &nbsp;&middot;&nbsp;
+> GitHub [@Rose-Kimu](https://github.com/Rose-Kimu) &nbsp;&middot;&nbsp;
 
 
 
